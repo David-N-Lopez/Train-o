@@ -1,4 +1,4 @@
-import os
+    import os
 import json
 import numpy as np
 import serial
@@ -96,10 +96,6 @@ while True:
         except:
             i=0
 '''
+Command to run OpenPoseDemo: 
 bin\OpenPoseDemo.exe --write_json ../json_file_stream --number_people_max 1
 '''
-
-# df[['X1','Y1','C1','X2','Y2','C2','X3','Y3','C3','X4','Y4','C4','X5','Y5','C5','X6','Y6','C6','X7','Y7','C7','X8','Y8','C8','X9','Y9','C9','X10','Y10','C10','X11','Y11','C11','X12','Y12','C12','X13','Y13','C13','X14','Y14','C14','X15','Y15','C15','X16','Y16','C16','X17','Y17','C17','X18','Y18','C18','X19','Y19','C19','X20','Y20','C20','X21','Y21','C21','X22','Y22','C22','X23','Y23','C23','X24','Y24','C24','X25','Y25','C25']] = pd.DataFrame(df.Points.values.tolist(), index= df.index)
-# df.drop("Points", axis=1, inplace=True)
-# df["Sitting"]=True
-# df.to_csv(r'SittingTest.csv',index = None, header=True)
