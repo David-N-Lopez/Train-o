@@ -15,7 +15,7 @@
 4. Change the port number and baud rate inside `main.py`
 5. Run `main.py` and enjoy.
 
-## File Descrition
+## Files Description
 * main.py
   - Main control loop of the program.
   - Author: Louis ([@Beepbloop](https://github.com/Beepbloop))
