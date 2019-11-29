@@ -3,10 +3,10 @@
 ## File Descrition
 * main.py
   - Main control loop of the program.
-  - Author: Louis [@Beepbloop](https://github.com/Beepbloop)
+  - Author: Louis ([@Beepbloop](https://github.com/Beepbloop))
 * RESTRequest.py
   - ```pose_estimator``` class
-  - Author: Nico [@Nico](https://youtu.be/dQw4w9WgXcQ)
+  - Author: Nico ([@Nico](https://youtu.be/dQw4w9WgXcQ))
 * manual.py
   - Manual control loop for testing the robot.
   - Author: Someone
