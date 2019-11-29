@@ -33,7 +33,7 @@
 5. Run `main.py` and enjoy.
 
 ## New Features
-* No port connection support.
+* No port connection support. *(Untested)*
 
 ## Things To Improve
 * Better pose estimator
