@@ -107,7 +107,7 @@ class pose_estimator:
             x_angle(float(eight_node_x))
         if zero_node > 0.0 and eight_node_y > 0.0 :
                 measure_distance(float(zero_node), float(eight_node_y))
-        print(result)
+        # print(result)
         return result
 
 

@@ -7,24 +7,48 @@ import time
 from RESTRequest import pose_estimator
 # import pandas as pd
 
+
+PORTNUM = 'COM10'
+BAUDRATE = 9600
+connected = True
+PAUSFRAME = 2
+
 def delAll():
     path_to_json = './json_file_stream/'
     json_files = [pos_json for pos_json in os.listdir(path_to_json) if pos_json.endswith('.json')]
     for i, js in enumerate(json_files,0):
         os.remove(os.path.join(path_to_json, js))
 
-
-
-PAUSFRAME = 2
 print("Port starting...")
-ser = serial.Serial('COM10',9600)
-delAll()
-i=0
+try:
+    ser = serial.Serial(port = PORTNUM,baudrate = BAUDRATE)
+    print('Port start successful. ')
+    connected = True
+except:
+    print("Port {} failed to connect, starting with out connection".format(PORTNUM))
+    ser = None
+    connected = False
+
+def sendCom(ser,msg):
+    if connected:
+        try:
+            ser.write(msg)
+        except:
+            print("Failed to send {} to port {}.".format(msg,PORTNUM))
+
+print("OpenPose starting...")
+os.system('start cmd /k "cd openpose_compiled & bin\OpenPoseDemo.exe --write_json ../json_file_stream --number_people_max 1"')
+time.sleep(1)
+
 print('File mointor starting...')
 estmator = pose_estimator()
 waitFrame = 0
-Points = 0
+Points = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+last_points = Points
+delAll()
+i=0
 while True:
+    last_points = Points
     path_to_json = './json_file_stream/'
     json_files = [pos_json for pos_json in os.listdir(path_to_json) if pos_json.endswith('.json')]
 
@@ -37,52 +61,44 @@ while True:
                 Points = json_text["people"][0]["pose_keypoints_2d"]
 
         except:
-            Points = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+            Points = last_points
 
         if waitFrame<=0:
             resDic = estmator.track(Points)
-            # print(resDic)
             if resDic['x']=='Left':
                 print('go left')
                 waitFrame = PAUSFRAME
-                ser.write(b'turn -1 0\n')
+                sendCom(ser,b'turn -1 0\n')
             elif resDic['x']=='Right':
                 print('go right')
                 waitFrame = PAUSFRAME
-                ser.write(b'turn 1 0\n')
+                sendCom(ser,b'turn 1 0\n')
             elif resDic['x'] is None and resDic['distance'] is None:
-                ser.write(b'stop\n')
+                sendCom(ser,b'stop\n')
                 waitFrame = 0
                 if estmator.add(Points):
                     print('give')
                     time.sleep(0.5)
-                    # ser.write(b'serve\n')
+                    sendCom(ser,b'serve\n')
             elif resDic['distance']=='Forward':
                 print('go forward')
                 waitFrame = PAUSFRAME
-                ser.write(b'turn 0 1\n')
+                sendCom(ser,b'turn 0 1\n')
                 estmator.add(Points)
             elif resDic['distance']=='Backward':
                 waitFrame = PAUSFRAME
                 print('go back')
-                ser.write(b'turn 0 -1\n')
+                sendCom(ser,b'turn 0 -1\n')
                 estmator.add(Points)
         else:
             # print('skip')
             waitFrame-=1
-
-        # if estmator.add(Points):
-        #     ser.write(b'serve\n')
-        #     print('Good dog')
-        # else:
-        #     print('Bad dog')
 
         try:
             for i, js in enumerate(json_files,0):
                 os.remove(os.path.join(path_to_json, js))
         except:
             i=0
-            # print('You Suck Haha')
 '''
 bin\OpenPoseDemo.exe --write_json ../json_file_stream --number_people_max 1
 '''
