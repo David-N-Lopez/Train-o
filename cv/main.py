@@ -2,11 +2,8 @@ import os
 import json
 import numpy as np
 import serial
-# import csv
 import time
 from RESTRequest import pose_estimator
-# import pandas as pd
-
 
 PORTNUM = 'COM10'
 BAUDRATE = 9600
