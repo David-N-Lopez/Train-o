@@ -32,6 +32,7 @@
   ![](https://raw.githubusercontent.com/CMU-Perceptual-Computing-Lab/openpose/master/doc/media/keypoints_pose_25.png)
 
 ## New Features
+* Auto start OpenPoseDemo.exe
 * No port connection support. *(Untested)*
 
 ## Things To Improve
